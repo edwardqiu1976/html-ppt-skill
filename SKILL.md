@@ -119,13 +119,36 @@ html-ppt/
 **Agent 执行说明**:
 1. 确定本 SKILL.md 文件所在目录为 `{baseDir}`
 2. 脚本路径 = `{baseDir}/scripts/<script-name>.ts`
-3. 解析 `${BUN_X}` 运行时: 如果安装了 `bun` → `bun`; 如果有 `npx` → `npx -y bun`; 否则建议安装 bun
+3. **必须先安装依赖**: `cd {baseDir} && npm install` (只需一次)
+4. 运行脚本时使用: `npx tsx {script}`
 
 | 脚本 | 用途 |
 |------|------|
 | `scripts/main.ts` | 创建新演示文稿 |
-| `scripts/render.ts` | 导出 PNG |
-| `scripts/theme-preview.ts` | 预览主题 |
+| `scripts/render.ts` | 导出 PNG (需先 `npm install`) |
+| `scripts/bundle.ts` | 导出单文件 HTML (方便分享给他人) |
+
+## 分享给他人
+
+如果只需要发给别人一个文件，使用 bundle 脚本：
+
+```bash
+cd ~/.hermes/skills/html-ppt
+npm install  # 只需一次
+npx tsx scripts/bundle.ts examples/test-presentation/index.html
+# 生成 index.bundle.html (60KB，包含 36 个主题)
+```
+
+生成的单文件 HTML：
+- 包含所有 CSS 和 JS
+- 嵌入全部 36 个主题
+- 只需发 1 个文件，对方打开就能看
+
+上传到飞书：
+```bash
+cd ~/.hermes/skills/html-ppt/examples/test-presentation
+~/.nvm/versions/node/v24.14.0/bin/lark-cli drive +upload --file ./index.bundle.html
+```
 
 ## 触发条件
 
