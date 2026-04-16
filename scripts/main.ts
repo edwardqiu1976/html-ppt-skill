@@ -40,9 +40,9 @@ function main() {
   // templates/deck.html references ../assets/...; for examples/<name>/index.html
   // that same relative path (../../assets/...) needs one more ../
   let content = readFileSync(templatePath, "utf-8");
-  content = content.replace(/href="\.\.\/assets\//g, href="../../assets/");
-  content = content.replace(/src="\.\.\/assets\//g, src="../../assets/");
-  content = content.replace(/data-theme-base="\.\.\/assets\//g, data-theme-base="../../assets/");
+  content = content.split('href="../assets/').join('href="../../assets/');
+  content = content.split('src="../assets/').join('src="../../assets/');
+  content = content.split('data-theme-base="../assets/').join('data-theme-base="../../assets/');
 
   writeFileSync(join(outDir, "index.html"), content);
 
